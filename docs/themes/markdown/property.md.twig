@@ -1,0 +1,27 @@
+{% import 'include/macros.twig' as macros %}
+{% autoescape false %}
+### {{ property.name }}
+{% if property.summary | trim %}
+
+{{ macros.mdEsc(property.summary) | raw }}
+{% endif %}
+
+```php
+{{ property.visibility ~ ' ' }}{% if property.static %}{{ 'static' ~ ' ' }}{% endif %}{% if property.type and property.type is not empty %}{{ property.type ~ ' ' }}{% endif %}{{ '$' ~ property.name }}
+```
+{% include 'partials/description.md.twig' with { node: property } %}
+{% if property.static or property.deprecated %}
+
+{% if property.static %}* This property is **static**.
+{% endif %}
+{% if property.deprecated %}* **Warning:** this property is **deprecated**. This means that this property will likely be removed in a future version.
+{% endif %}
+{% endif %}
+{% if property.type and property.type.classes %}
+
+**Type:** {% for typeClass in property.type.classes %}{{ macros.mdLink(typeClass, path, null, 'class') }}{% if not loop.last %} | {% endif %}{% endfor %}
+{% endif %}
+{% include 'partials/tags.md.twig' with { tags: property.tags } only %}
+
+***
+{% endautoescape %}

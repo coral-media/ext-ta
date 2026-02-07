@@ -1,0 +1,13 @@
+{% import 'include/macros.twig' as macros %}
+{%- for otherNode in others -%}
+    {%- if loop.index0 > 0 -%}
+        {{- ',\n  ' -}}
+    {%- else -%}
+        {{- '  ' -}}
+    {%- endif -%}
+    {%- if '0' == macros.mdNestingLevel(otherNode.FullyQualifiedStructuralElementName) -%}
+        {{- '`' ~ otherNode.FullyQualifiedStructuralElementName | default(otherNode.name) ~ '`' -}}
+    {%- else -%}
+        {{- macros.mdLink(otherNode, macros.mdClassPath(node), otherNode.FullyQualifiedStructuralElementName, 'class') -}}
+    {%- endif -%}
+{%- endfor -%}

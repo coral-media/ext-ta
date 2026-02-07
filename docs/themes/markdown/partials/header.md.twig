@@ -1,0 +1,10 @@
+{% import 'include/macros.twig' as macros %}
+{% if parameter.includeTitle == 'yes' %}
+# {{ (node.name ~ titleSuffix | default('')) | raw }}
+{% endif %}
+{% if node.summary | trim %}
+
+{{ macros.mdEsc(node.summary) | raw }}
+{% endif -%}
+{% include 'partials/description.md.twig' with { node: node } %}
+{% include 'partials/toc.md.twig' %}

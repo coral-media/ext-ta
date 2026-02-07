@@ -1,0 +1,66 @@
+{% import 'include/macros.twig' as macros %}
+{% autoescape false %}
+### {{ method.name }}
+{% if method.summary | trim %}
+
+{{ macros.mdEsc(method.summary) | raw }}
+{% endif %}
+
+{# Method signature #}
+```php
+{% if method.final %}{{ 'final' ~ ' ' }}{% endif %}{{ method.visibility ~ ' ' }}{% if method.static %}{{ 'static' ~ ' ' }}{% endif %}{{ method.name }}({% for argument in method.arguments %}
+{{- argument.type }}
+{{- argument.byReference ? '&' }} $
+{{- argument.name }}{{ argument.default ? ' = ' ~ argument.default | raw }}
+{%- if not loop.last %}, {% endif %}
+{%- endfor %})
+{{- method.response.type ? ': ' ~ method.response.type }}
+```
+{% include 'partials/description.md.twig' with { node: method } %}
+{% if method.static or method.abstract or method.final or method.deprecated %}
+
+{% if method.static %}* This method is **static**.{% endif -%}
+{% if method.abstract %}* This method is **abstract**.{% endif -%}
+{% if method.final %}* This method is **final**.{% endif -%}
+{% if method.deprecated %}* **Warning:** this method is **deprecated**. This means that this method will likely be removed in a future version.{% endif -%}
+{% endif -%}
+{%- if method.arguments is not empty %}
+
+**Parameters:**
+
+{% set parameters = [] %}
+{% for argument in method.arguments %}
+{% set parameters = parameters | merge([
+    {
+        name: '`$' ~ argument.name ~ '`',
+        type: argument.type ? '**' ~ argument.type ~ '**' : '',
+        description: argument.description | raw
+    }
+]) %}
+{% endfor -%}
+{{ macros.mdTable(parameters, [
+    { label: 'Parameter', key: 'name' },
+    { label: 'Type', key: 'type' },
+    { label: 'Description', key: 'description' },
+]) }}
+{%- endif -%}
+{% if method.response.description and method.response.description is not empty %}
+
+**Return Value:**
+{% include 'partials/description.md.twig' with { node: method.response } %}
+{% endif %}
+{% if method.tags.throws | length > 0 or method.tags.throw | length > 0 %}
+
+**Throws:**
+
+{% for exception in method.tags.throws %}
+{% if exception.description | trim %}
+{{ exception.description | raw }}
+{% endif %}
+- {{ macros.mdLink(exception.type | raw, macros.mdClassPath(node), exception.type | shortFQSEN, 'class' ) }}
+{% endfor %}
+{% endif -%}
+{% include 'partials/tags.md.twig' with { tags: method.tags } only %}
+
+***
+{% endautoescape %}

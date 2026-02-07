@@ -1,0 +1,33 @@
+{
+  "name": "coral-media/ext-ta",
+  "description": "Technical analysis indicators (TA-Lib) for PHP",
+  "keywords": [
+    "php-ext",
+    "ta-lib",
+    "technical-analysis",
+    "indicators",
+    "trading",
+    "finance"
+  ],
+  "authors": [
+    {
+      "name": "Rafael Ernesto Espinosa Santiesteban",
+      "email": "rernesto.espinosa@gmail.com"
+    }
+  ],
+  "type": "php-ext",
+  "license": "MIT",
+  "require": {
+    "php": ">=8.1"
+  },
+  "php-ext": {
+    "extension-name": "ta",
+    "configure-options": [
+      {
+        "name": "with-ta",
+        "description": "Build with vendored TA-Lib sources",
+        "needs-value": false
+      }
+    ]
+  }
+}

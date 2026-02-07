@@ -1,0 +1,21 @@
+ARG_WITH("ta", "TA-Lib support", "yes");
+
+if (PHP_TA != "no") {
+  ADD_FLAG("CFLAGS_TA", "/DHAVE_TA");
+  ADD_FLAG("CFLAGS_TA", "/Ilib\\ta-lib\\include");
+  ADD_FLAG("CFLAGS_TA", "/Ilib\\ta-lib\\src");
+  ADD_FLAG("CFLAGS_TA", "/Ilib\\ta-lib\\src\\ta_common");
+  ADD_FLAG("CFLAGS_TA", "/Ilib\\ta-lib\\src\\ta_func");
+  ADD_FLAG("CFLAGS_TA", "/Ilib\\ta-lib\\src\\ta_abstract");
+  ADD_FLAG("CFLAGS_TA", "/Ilib\\ta-lib\\src\\ta_abstract\\frames");
+  ADD_FLAG("CFLAGS_TA", "/Ilib\\ta-lib\\src\\ta_abstract\\tables");
+
+  EXTENSION("ta",
+    "ta.c " +
+    "lib\\ta-lib\\src\\ta_common\\*.c " +
+    "lib\\ta-lib\\src\\ta_func\\*.c " +
+    "lib\\ta-lib\\src\\ta_abstract\\*.c " +
+    "lib\\ta-lib\\src\\ta_abstract\\frames\\*.c " +
+    "lib\\ta-lib\\src\\ta_abstract\\tables\\*.c"
+  );
+}

@@ -1,0 +1,47 @@
+{% import 'include/macros.twig' as macros %}
+{% autoescape false %}
+{% block content %}
+{% include 'partials/header.md.twig' with { node: node } %}
+
+***
+
+{% if node.deprecated %}* **Warning:** this constant is **deprecated**. This means that this constant will likely be removed in a future version.{% endif %}
+* Full name: `{{ node.name }}`
+* Defined in: `{{ node.file.path }}`
+{% include 'partials/tags.md.twig' with { tags: node.tags } only %}
+
+## Type
+
+{% if node.type %}
+**{{ node.type }}**
+{% else %}
+**mixed**
+{% endif %}
+
+## Value
+
+{% if node.value is not null %}
+`{{ node.value }}`
+{% else %}
+`""`
+{% endif %}
+
+## Description
+
+{% if node.summary | trim %}
+{{ node.summary | raw }}
+{% endif %}
+{% if node.description | trim %}
+
+{{ node.description | raw }}
+{% endif %}
+{% if node.var is defined and node.var[0] is defined and node.var[0].description | trim %}
+
+{{ node.var[0].description | raw }}
+{% endif %}
+
+{% if parameter.includeFooter == 'yes' %}
+{% include 'partials/footer.md.twig' %}
+{% endif %}
+{% endblock %}
+{% endautoescape %}

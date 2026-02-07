@@ -1,0 +1,54 @@
+# Build artifacts
+*.o
+*.lo
+*.la
+*.slo
+*.so
+*.a
+*.dll
+*.dylib
+*.lib
+*.obj
+*.dep
+
+# libtool / autotools
+.libs/
+.deps/
+.aclocal.m4
+.config.m4
+.build/
+.autom4te.cache/
+config.h
+config.h.in
+config.log
+config.nice
+config.status
+configure
+configure~
+install-sh
+libtool
+ltmain.sh
+missing
+mkinstalldirs
+configure.ac
+Makefile*
+*.cache
+*.phpdoc
+
+# phpize / PHP extension build
+modules/
+run-tests.php
+php_test_results
+build/
+
+# VS Code
+.vscode/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+!lib/**/Makefile
