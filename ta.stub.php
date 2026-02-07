@@ -521,6 +521,46 @@ function ta_typprice(array $high, array $low, array $close): array {}
 function ta_wclprice(array $high, array $low, array $close): array {}
 
 /**
+ * Hilbert Transform - Dominant Cycle Period (HT_DCPERIOD).
+ *
+ * @param float[] $values
+ * @return array<int, float|null>
+ */
+function ta_ht_dcperiod(array $values): array {}
+
+/**
+ * Hilbert Transform - Dominant Cycle Phase (HT_DCPHASE).
+ *
+ * @param float[] $values
+ * @return array<int, float|null>
+ */
+function ta_ht_dcphase(array $values): array {}
+
+/**
+ * Hilbert Transform - Phasor Components (HT_PHASOR).
+ *
+ * @param float[] $values
+ * @return array{inphase: array<int, float|null>, quadrature: array<int, float|null>}
+ */
+function ta_ht_phasor(array $values): array {}
+
+/**
+ * Hilbert Transform - SineWave (HT_SINE).
+ *
+ * @param float[] $values
+ * @return array{sine: array<int, float|null>, leadsine: array<int, float|null>}
+ */
+function ta_ht_sine(array $values): array {}
+
+/**
+ * Hilbert Transform - Trend vs Cycle Mode (HT_TRENDMODE).
+ *
+ * @param float[] $values
+ * @return array<int, int|null>
+ */
+function ta_ht_trendmode(array $values): array {}
+
+/**
  * Bollinger Bands (BBANDS).
  *
  * @param float[] $values

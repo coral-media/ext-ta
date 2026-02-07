@@ -2560,6 +2560,160 @@ PHP_FUNCTION(ta_wclprice)
 #endif
 }
 
+PHP_FUNCTION(ta_ht_dcperiod)
+{
+  ta_unary_common(INTERNAL_FUNCTION_PARAM_PASSTHRU, "ta_ht_dcperiod", TA_HT_DCPERIOD);
+}
+
+PHP_FUNCTION(ta_ht_dcphase)
+{
+  ta_unary_common(INTERNAL_FUNCTION_PARAM_PASSTHRU, "ta_ht_dcphase", TA_HT_DCPHASE);
+}
+
+PHP_FUNCTION(ta_ht_phasor)
+{
+  zval *input = NULL;
+
+  ZEND_PARSE_PARAMETERS_START(1, 1)
+    Z_PARAM_ARRAY(input)
+  ZEND_PARSE_PARAMETERS_END();
+
+#ifdef HAVE_TA
+  double *in_real = NULL;
+  int input_len = 0;
+  if (!ta_read_double_array(input, &in_real, &input_len, "ta_ht_phasor")) {
+    RETURN_THROWS();
+  }
+
+  if (input_len <= 0) {
+    zval in_phase;
+    zval quadrature;
+    array_init(&in_phase);
+    array_init(&quadrature);
+    array_init(return_value);
+    add_assoc_zval(return_value, "inphase", &in_phase);
+    add_assoc_zval(return_value, "quadrature", &quadrature);
+    return;
+  }
+
+  double *out_inphase = emalloc(sizeof(double) * input_len);
+  double *out_quadrature = emalloc(sizeof(double) * input_len);
+  int out_beg = 0;
+  int out_nb = 0;
+  TA_RetCode rc = TA_HT_PHASOR(0, input_len - 1, in_real, &out_beg, &out_nb, out_inphase, out_quadrature);
+
+  if (rc != TA_SUCCESS) {
+    efree(in_real);
+    efree(out_inphase);
+    efree(out_quadrature);
+    zend_throw_error(NULL, "TA_HT_PHASOR failed (code %d)", rc);
+    RETURN_THROWS();
+  }
+
+  ta_fill_two_outputs(return_value, out_beg, out_nb, out_inphase, out_quadrature, "inphase", "quadrature");
+
+  efree(in_real);
+  efree(out_inphase);
+  efree(out_quadrature);
+#else
+  zend_throw_error(NULL, "TA-Lib not available");
+  RETURN_THROWS();
+#endif
+}
+
+PHP_FUNCTION(ta_ht_sine)
+{
+  zval *input = NULL;
+
+  ZEND_PARSE_PARAMETERS_START(1, 1)
+    Z_PARAM_ARRAY(input)
+  ZEND_PARSE_PARAMETERS_END();
+
+#ifdef HAVE_TA
+  double *in_real = NULL;
+  int input_len = 0;
+  if (!ta_read_double_array(input, &in_real, &input_len, "ta_ht_sine")) {
+    RETURN_THROWS();
+  }
+
+  if (input_len <= 0) {
+    zval sine;
+    zval lead_sine;
+    array_init(&sine);
+    array_init(&lead_sine);
+    array_init(return_value);
+    add_assoc_zval(return_value, "sine", &sine);
+    add_assoc_zval(return_value, "leadsine", &lead_sine);
+    return;
+  }
+
+  double *out_sine = emalloc(sizeof(double) * input_len);
+  double *out_lead = emalloc(sizeof(double) * input_len);
+  int out_beg = 0;
+  int out_nb = 0;
+  TA_RetCode rc = TA_HT_SINE(0, input_len - 1, in_real, &out_beg, &out_nb, out_sine, out_lead);
+
+  if (rc != TA_SUCCESS) {
+    efree(in_real);
+    efree(out_sine);
+    efree(out_lead);
+    zend_throw_error(NULL, "TA_HT_SINE failed (code %d)", rc);
+    RETURN_THROWS();
+  }
+
+  ta_fill_two_outputs(return_value, out_beg, out_nb, out_sine, out_lead, "sine", "leadsine");
+
+  efree(in_real);
+  efree(out_sine);
+  efree(out_lead);
+#else
+  zend_throw_error(NULL, "TA-Lib not available");
+  RETURN_THROWS();
+#endif
+}
+
+PHP_FUNCTION(ta_ht_trendmode)
+{
+  zval *input = NULL;
+
+  ZEND_PARSE_PARAMETERS_START(1, 1)
+    Z_PARAM_ARRAY(input)
+  ZEND_PARSE_PARAMETERS_END();
+
+#ifdef HAVE_TA
+  double *in_real = NULL;
+  int input_len = 0;
+  if (!ta_read_double_array(input, &in_real, &input_len, "ta_ht_trendmode")) {
+    RETURN_THROWS();
+  }
+
+  if (input_len <= 0) {
+    array_init(return_value);
+    return;
+  }
+
+  int *out_int = emalloc(sizeof(int) * input_len);
+  int out_beg = 0;
+  int out_nb = 0;
+  TA_RetCode rc = TA_HT_TRENDMODE(0, input_len - 1, in_real, &out_beg, &out_nb, out_int);
+
+  if (rc != TA_SUCCESS) {
+    efree(in_real);
+    efree(out_int);
+    zend_throw_error(NULL, "TA_HT_TRENDMODE failed (code %d)", rc);
+    RETURN_THROWS();
+  }
+
+  ta_fill_output_array_int(return_value, out_beg, out_nb, out_int);
+
+  efree(in_real);
+  efree(out_int);
+#else
+  zend_throw_error(NULL, "TA-Lib not available");
+  RETURN_THROWS();
+#endif
+}
+
 PHP_FUNCTION(ta_bbands)
 {
   zval *input = NULL;
@@ -2713,6 +2867,11 @@ static const zend_function_entry ta_functions[] = {
   PHP_FE(ta_medprice, arginfo_ta_medprice)
   PHP_FE(ta_typprice, arginfo_ta_typprice)
   PHP_FE(ta_wclprice, arginfo_ta_wclprice)
+  PHP_FE(ta_ht_dcperiod, arginfo_ta_ht_dcperiod)
+  PHP_FE(ta_ht_dcphase, arginfo_ta_ht_dcphase)
+  PHP_FE(ta_ht_phasor, arginfo_ta_ht_phasor)
+  PHP_FE(ta_ht_sine, arginfo_ta_ht_sine)
+  PHP_FE(ta_ht_trendmode, arginfo_ta_ht_trendmode)
   PHP_FE(ta_bbands, arginfo_ta_bbands)
   PHP_FE_END
 };

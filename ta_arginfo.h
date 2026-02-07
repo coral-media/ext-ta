@@ -1,5 +1,5 @@
 /* This is a generated file, edit the .stub.php file instead.
- * Stub hash: 096de5a07ed853758a59b14f052b950d27b0bac0 */
+ * Stub hash: 894ae1b7f84fcc888974a1b9629f1be33e0bd675 */
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_ta_version, 0, 0, IS_STRING, 0)
 ZEND_END_ARG_INFO()
@@ -200,6 +200,16 @@ ZEND_END_ARG_INFO()
 #define arginfo_ta_typprice arginfo_ta_trange
 
 #define arginfo_ta_wclprice arginfo_ta_trange
+
+#define arginfo_ta_ht_dcperiod arginfo_ta_ht_trendline
+
+#define arginfo_ta_ht_dcphase arginfo_ta_ht_trendline
+
+#define arginfo_ta_ht_phasor arginfo_ta_ht_trendline
+
+#define arginfo_ta_ht_sine arginfo_ta_ht_trendline
+
+#define arginfo_ta_ht_trendmode arginfo_ta_ht_trendline
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_ta_bbands, 0, 1, IS_ARRAY, 0)
 	ZEND_ARG_TYPE_INFO(0, values, IS_ARRAY, 0)
