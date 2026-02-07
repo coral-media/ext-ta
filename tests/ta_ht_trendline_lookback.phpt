@@ -17,4 +17,4 @@ try {
 }
 ?>
 --EXPECT--
-Input length must be > TA_HT_TRENDLINE_LOOKBACK (63)
+Input length must be > TA_HT_TRENDLINE_LOOKBACK

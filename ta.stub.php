@@ -188,6 +188,38 @@ function ta_sarext(
 ): array {}
 
 /**
+ * Average True Range (ATR).
+ *
+ * @param float[] $high
+ * @param float[] $low
+ * @param float[] $close
+ * @param int $period Default 14
+ * @return array<int, float|null> Values aligned to input indexes (leading nulls).
+ */
+function ta_atr(array $high, array $low, array $close, int $period = 14): array {}
+
+/**
+ * Normalized Average True Range (NATR).
+ *
+ * @param float[] $high
+ * @param float[] $low
+ * @param float[] $close
+ * @param int $period Default 14
+ * @return array<int, float|null> Values aligned to input indexes (leading nulls).
+ */
+function ta_natr(array $high, array $low, array $close, int $period = 14): array {}
+
+/**
+ * True Range (TRANGE).
+ *
+ * @param float[] $high
+ * @param float[] $low
+ * @param float[] $close
+ * @return array<int, float|null> Values aligned to input indexes (leading nulls).
+ */
+function ta_trange(array $high, array $low, array $close): array {}
+
+/**
  * Bollinger Bands (BBANDS).
  *
  * @param float[] $values
@@ -202,23 +234,41 @@ function ta_bbands(array $values, int $period = 5, float $nbDevUp = 2.0, float $
 /**
  * Moving average type constants.
  */
-/** @var int */
+/**
+ * @var int Moving average type: SMA.
+ */
 const TA_MA_TYPE_SMA = 0;
-/** @var int */
+/**
+ * @var int Moving average type: EMA.
+ */
 const TA_MA_TYPE_EMA = 1;
-/** @var int */
+/**
+ * @var int Moving average type: WMA.
+ */
 const TA_MA_TYPE_WMA = 2;
-/** @var int */
+/**
+ * @var int Moving average type: DEMA.
+ */
 const TA_MA_TYPE_DEMA = 3;
-/** @var int */
+/**
+ * @var int Moving average type: TEMA.
+ */
 const TA_MA_TYPE_TEMA = 4;
-/** @var int */
+/**
+ * @var int Moving average type: TRIMA.
+ */
 const TA_MA_TYPE_TRIMA = 5;
-/** @var int */
+/**
+ * @var int Moving average type: KAMA.
+ */
 const TA_MA_TYPE_KAMA = 6;
-/** @var int */
+/**
+ * @var int Moving average type: MAMA.
+ */
 const TA_MA_TYPE_MAMA = 7;
-/** @var int */
+/**
+ * @var int Moving average type: T3.
+ */
 const TA_MA_TYPE_T3 = 8;
 
 /**
@@ -237,6 +287,6 @@ const TA_REAL_MAX = 0.0;
  * Lookback constants.
  */
 /**
- * @var int Runtime value is TA_HT_TRENDLINE_Lookback().
+ * @var int Runtime value is TA_HT_TRENDLINE_Lookback() from TA-Lib.
  */
 const TA_HT_TRENDLINE_LOOKBACK = 0;

@@ -1,5 +1,5 @@
 /* This is a generated file, edit the .stub.php file instead.
- * Stub hash: 41120364e56e5436a9a4c8babdcc3b41cc2d9801 */
+ * Stub hash: ff737112036ca5dc7a75af32d561bc93ae9759fa */
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_ta_version, 0, 0, IS_STRING, 0)
 ZEND_END_ARG_INFO()
@@ -87,6 +87,21 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_ta_sarext, 0, 2, IS_ARRAY, 0)
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, accelerationInitShort, IS_DOUBLE, 0, "0.02")
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, accelerationShort, IS_DOUBLE, 0, "0.02")
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, accelerationMaxShort, IS_DOUBLE, 0, "0.2")
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_ta_atr, 0, 3, IS_ARRAY, 0)
+	ZEND_ARG_TYPE_INFO(0, high, IS_ARRAY, 0)
+	ZEND_ARG_TYPE_INFO(0, low, IS_ARRAY, 0)
+	ZEND_ARG_TYPE_INFO(0, close, IS_ARRAY, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, period, IS_LONG, 0, "14")
+ZEND_END_ARG_INFO()
+
+#define arginfo_ta_natr arginfo_ta_atr
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_ta_trange, 0, 3, IS_ARRAY, 0)
+	ZEND_ARG_TYPE_INFO(0, high, IS_ARRAY, 0)
+	ZEND_ARG_TYPE_INFO(0, low, IS_ARRAY, 0)
+	ZEND_ARG_TYPE_INFO(0, close, IS_ARRAY, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_ta_bbands, 0, 1, IS_ARRAY, 0)
