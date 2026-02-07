@@ -1,5 +1,5 @@
 /* This is a generated file, edit the .stub.php file instead.
- * Stub hash: bc80b49829d1023342e3a3fff3f52a9d71f9ee28 */
+ * Stub hash: 096de5a07ed853758a59b14f052b950d27b0bac0 */
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_ta_version, 0, 0, IS_STRING, 0)
 ZEND_END_ARG_INFO()
@@ -182,6 +182,24 @@ ZEND_END_ARG_INFO()
 #define arginfo_ta_tan arginfo_ta_ht_trendline
 
 #define arginfo_ta_tanh arginfo_ta_ht_trendline
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_ta_avgprice, 0, 4, IS_ARRAY, 0)
+	ZEND_ARG_TYPE_INFO(0, open, IS_ARRAY, 0)
+	ZEND_ARG_TYPE_INFO(0, high, IS_ARRAY, 0)
+	ZEND_ARG_TYPE_INFO(0, low, IS_ARRAY, 0)
+	ZEND_ARG_TYPE_INFO(0, close, IS_ARRAY, 0)
+ZEND_END_ARG_INFO()
+
+#define arginfo_ta_avgdev arginfo_ta_midpoint
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_ta_medprice, 0, 2, IS_ARRAY, 0)
+	ZEND_ARG_TYPE_INFO(0, high, IS_ARRAY, 0)
+	ZEND_ARG_TYPE_INFO(0, low, IS_ARRAY, 0)
+ZEND_END_ARG_INFO()
+
+#define arginfo_ta_typprice arginfo_ta_trange
+
+#define arginfo_ta_wclprice arginfo_ta_trange
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_ta_bbands, 0, 1, IS_ARRAY, 0)
 	ZEND_ARG_TYPE_INFO(0, values, IS_ARRAY, 0)

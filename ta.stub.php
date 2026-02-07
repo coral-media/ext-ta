@@ -472,6 +472,55 @@ function ta_tan(array $values): array {}
 function ta_tanh(array $values): array {}
 
 /**
+ * Average Price (AVGPRICE).
+ *
+ * @param float[] $open
+ * @param float[] $high
+ * @param float[] $low
+ * @param float[] $close
+ * @return array<int, float|null>
+ */
+function ta_avgprice(array $open, array $high, array $low, array $close): array {}
+
+/**
+ * Average Deviation (AVGDEV).
+ *
+ * @param float[] $values
+ * @param int $period Default 14
+ * @return array<int, float|null>
+ */
+function ta_avgdev(array $values, int $period = 14): array {}
+
+/**
+ * Median Price (MEDPRICE).
+ *
+ * @param float[] $high
+ * @param float[] $low
+ * @return array<int, float|null>
+ */
+function ta_medprice(array $high, array $low): array {}
+
+/**
+ * Typical Price (TYPPRICE).
+ *
+ * @param float[] $high
+ * @param float[] $low
+ * @param float[] $close
+ * @return array<int, float|null>
+ */
+function ta_typprice(array $high, array $low, array $close): array {}
+
+/**
+ * Weighted Close Price (WCLPRICE).
+ *
+ * @param float[] $high
+ * @param float[] $low
+ * @param float[] $close
+ * @return array<int, float|null>
+ */
+function ta_wclprice(array $high, array $low, array $close): array {}
+
+/**
  * Bollinger Bands (BBANDS).
  *
  * @param float[] $values

@@ -2208,6 +2208,358 @@ PHP_FUNCTION(ta_tanh)
   ta_unary_common(INTERNAL_FUNCTION_PARAM_PASSTHRU, "ta_tanh", TA_TANH);
 }
 
+PHP_FUNCTION(ta_avgprice)
+{
+  zval *open = NULL;
+  zval *high = NULL;
+  zval *low = NULL;
+  zval *close = NULL;
+
+  ZEND_PARSE_PARAMETERS_START(4, 4)
+    Z_PARAM_ARRAY(open)
+    Z_PARAM_ARRAY(high)
+    Z_PARAM_ARRAY(low)
+    Z_PARAM_ARRAY(close)
+  ZEND_PARSE_PARAMETERS_END();
+
+#ifdef HAVE_TA
+  double *in_open = NULL;
+  double *in_high = NULL;
+  double *in_low = NULL;
+  double *in_close = NULL;
+  int len_open = 0;
+  int len_high = 0;
+  int len_low = 0;
+  int len_close = 0;
+
+  if (!ta_read_double_array(open, &in_open, &len_open, "ta_avgprice")) {
+    RETURN_THROWS();
+  }
+  if (!ta_read_double_array(high, &in_high, &len_high, "ta_avgprice")) {
+    if (in_open) efree(in_open);
+    RETURN_THROWS();
+  }
+  if (!ta_read_double_array(low, &in_low, &len_low, "ta_avgprice")) {
+    if (in_open) efree(in_open);
+    if (in_high) efree(in_high);
+    RETURN_THROWS();
+  }
+  if (!ta_read_double_array(close, &in_close, &len_close, "ta_avgprice")) {
+    if (in_open) efree(in_open);
+    if (in_high) efree(in_high);
+    if (in_low) efree(in_low);
+    RETURN_THROWS();
+  }
+
+  if (len_open <= 0 || len_high <= 0 || len_low <= 0 || len_close <= 0) {
+    if (in_open) efree(in_open);
+    if (in_high) efree(in_high);
+    if (in_low) efree(in_low);
+    if (in_close) efree(in_close);
+    array_init(return_value);
+    return;
+  }
+
+  if (len_open != len_high || len_open != len_low || len_open != len_close) {
+    efree(in_open);
+    efree(in_high);
+    efree(in_low);
+    efree(in_close);
+    zend_throw_error(NULL, "Input arrays must have the same length");
+    RETURN_THROWS();
+  }
+
+  double *out_real = emalloc(sizeof(double) * len_open);
+  int out_beg = 0;
+  int out_nb = 0;
+  TA_RetCode rc = TA_AVGPRICE(0, len_open - 1, in_open, in_high, in_low, in_close, &out_beg, &out_nb, out_real);
+
+  if (rc != TA_SUCCESS) {
+    efree(in_open);
+    efree(in_high);
+    efree(in_low);
+    efree(in_close);
+    efree(out_real);
+    zend_throw_error(NULL, "TA_AVGPRICE failed (code %d)", rc);
+    RETURN_THROWS();
+  }
+
+  ta_fill_output_array(return_value, out_beg, out_nb, out_real);
+
+  efree(in_open);
+  efree(in_high);
+  efree(in_low);
+  efree(in_close);
+  efree(out_real);
+#else
+  zend_throw_error(NULL, "TA-Lib not available");
+  RETURN_THROWS();
+#endif
+}
+
+PHP_FUNCTION(ta_avgdev)
+{
+  zval *input = NULL;
+  zend_long period = 14;
+
+  ZEND_PARSE_PARAMETERS_START(1, 2)
+    Z_PARAM_ARRAY(input)
+    Z_PARAM_OPTIONAL
+    Z_PARAM_LONG(period)
+  ZEND_PARSE_PARAMETERS_END();
+
+#ifdef HAVE_TA
+  if (period < 2 || period > 100000) {
+    zend_throw_error(NULL, "Period must be between 2 and 100000");
+    RETURN_THROWS();
+  }
+
+  double *in_real = NULL;
+  int input_len = 0;
+  if (!ta_read_double_array(input, &in_real, &input_len, "ta_avgdev")) {
+    RETURN_THROWS();
+  }
+  if (input_len <= 0) {
+    array_init(return_value);
+    return;
+  }
+  if (period > input_len) {
+    efree(in_real);
+    zend_throw_error(NULL, "Period must be <= number of input values");
+    RETURN_THROWS();
+  }
+
+  double *out_real = emalloc(sizeof(double) * input_len);
+  int out_beg = 0;
+  int out_nb = 0;
+  TA_RetCode rc = TA_AVGDEV(0, input_len - 1, in_real, (int) period, &out_beg, &out_nb, out_real);
+
+  if (rc != TA_SUCCESS) {
+    efree(in_real);
+    efree(out_real);
+    zend_throw_error(NULL, "TA_AVGDEV failed (code %d)", rc);
+    RETURN_THROWS();
+  }
+
+  ta_fill_output_array(return_value, out_beg, out_nb, out_real);
+
+  efree(in_real);
+  efree(out_real);
+#else
+  zend_throw_error(NULL, "TA-Lib not available");
+  RETURN_THROWS();
+#endif
+}
+
+PHP_FUNCTION(ta_medprice)
+{
+  zval *high = NULL;
+  zval *low = NULL;
+
+  ZEND_PARSE_PARAMETERS_START(2, 2)
+    Z_PARAM_ARRAY(high)
+    Z_PARAM_ARRAY(low)
+  ZEND_PARSE_PARAMETERS_END();
+
+#ifdef HAVE_TA
+  double *in_high = NULL;
+  double *in_low = NULL;
+  int len_high = 0;
+  int len_low = 0;
+
+  if (!ta_read_double_array(high, &in_high, &len_high, "ta_medprice")) {
+    RETURN_THROWS();
+  }
+  if (!ta_read_double_array(low, &in_low, &len_low, "ta_medprice")) {
+    if (in_high) efree(in_high);
+    RETURN_THROWS();
+  }
+
+  if (len_high <= 0 || len_low <= 0) {
+    if (in_high) efree(in_high);
+    if (in_low) efree(in_low);
+    array_init(return_value);
+    return;
+  }
+  if (len_high != len_low) {
+    efree(in_high);
+    efree(in_low);
+    zend_throw_error(NULL, "Input arrays must have the same length");
+    RETURN_THROWS();
+  }
+
+  double *out_real = emalloc(sizeof(double) * len_high);
+  int out_beg = 0;
+  int out_nb = 0;
+  TA_RetCode rc = TA_MEDPRICE(0, len_high - 1, in_high, in_low, &out_beg, &out_nb, out_real);
+
+  if (rc != TA_SUCCESS) {
+    efree(in_high);
+    efree(in_low);
+    efree(out_real);
+    zend_throw_error(NULL, "TA_MEDPRICE failed (code %d)", rc);
+    RETURN_THROWS();
+  }
+
+  ta_fill_output_array(return_value, out_beg, out_nb, out_real);
+
+  efree(in_high);
+  efree(in_low);
+  efree(out_real);
+#else
+  zend_throw_error(NULL, "TA-Lib not available");
+  RETURN_THROWS();
+#endif
+}
+
+PHP_FUNCTION(ta_typprice)
+{
+  zval *high = NULL;
+  zval *low = NULL;
+  zval *close = NULL;
+
+  ZEND_PARSE_PARAMETERS_START(3, 3)
+    Z_PARAM_ARRAY(high)
+    Z_PARAM_ARRAY(low)
+    Z_PARAM_ARRAY(close)
+  ZEND_PARSE_PARAMETERS_END();
+
+#ifdef HAVE_TA
+  double *in_high = NULL;
+  double *in_low = NULL;
+  double *in_close = NULL;
+  int len_high = 0;
+  int len_low = 0;
+  int len_close = 0;
+
+  if (!ta_read_double_array(high, &in_high, &len_high, "ta_typprice")) {
+    RETURN_THROWS();
+  }
+  if (!ta_read_double_array(low, &in_low, &len_low, "ta_typprice")) {
+    if (in_high) efree(in_high);
+    RETURN_THROWS();
+  }
+  if (!ta_read_double_array(close, &in_close, &len_close, "ta_typprice")) {
+    if (in_high) efree(in_high);
+    if (in_low) efree(in_low);
+    RETURN_THROWS();
+  }
+
+  if (len_high <= 0 || len_low <= 0 || len_close <= 0) {
+    if (in_high) efree(in_high);
+    if (in_low) efree(in_low);
+    if (in_close) efree(in_close);
+    array_init(return_value);
+    return;
+  }
+  if (len_high != len_low || len_high != len_close) {
+    efree(in_high);
+    efree(in_low);
+    efree(in_close);
+    zend_throw_error(NULL, "Input arrays must have the same length");
+    RETURN_THROWS();
+  }
+
+  double *out_real = emalloc(sizeof(double) * len_high);
+  int out_beg = 0;
+  int out_nb = 0;
+  TA_RetCode rc = TA_TYPPRICE(0, len_high - 1, in_high, in_low, in_close, &out_beg, &out_nb, out_real);
+
+  if (rc != TA_SUCCESS) {
+    efree(in_high);
+    efree(in_low);
+    efree(in_close);
+    efree(out_real);
+    zend_throw_error(NULL, "TA_TYPPRICE failed (code %d)", rc);
+    RETURN_THROWS();
+  }
+
+  ta_fill_output_array(return_value, out_beg, out_nb, out_real);
+
+  efree(in_high);
+  efree(in_low);
+  efree(in_close);
+  efree(out_real);
+#else
+  zend_throw_error(NULL, "TA-Lib not available");
+  RETURN_THROWS();
+#endif
+}
+
+PHP_FUNCTION(ta_wclprice)
+{
+  zval *high = NULL;
+  zval *low = NULL;
+  zval *close = NULL;
+
+  ZEND_PARSE_PARAMETERS_START(3, 3)
+    Z_PARAM_ARRAY(high)
+    Z_PARAM_ARRAY(low)
+    Z_PARAM_ARRAY(close)
+  ZEND_PARSE_PARAMETERS_END();
+
+#ifdef HAVE_TA
+  double *in_high = NULL;
+  double *in_low = NULL;
+  double *in_close = NULL;
+  int len_high = 0;
+  int len_low = 0;
+  int len_close = 0;
+
+  if (!ta_read_double_array(high, &in_high, &len_high, "ta_wclprice")) {
+    RETURN_THROWS();
+  }
+  if (!ta_read_double_array(low, &in_low, &len_low, "ta_wclprice")) {
+    if (in_high) efree(in_high);
+    RETURN_THROWS();
+  }
+  if (!ta_read_double_array(close, &in_close, &len_close, "ta_wclprice")) {
+    if (in_high) efree(in_high);
+    if (in_low) efree(in_low);
+    RETURN_THROWS();
+  }
+
+  if (len_high <= 0 || len_low <= 0 || len_close <= 0) {
+    if (in_high) efree(in_high);
+    if (in_low) efree(in_low);
+    if (in_close) efree(in_close);
+    array_init(return_value);
+    return;
+  }
+  if (len_high != len_low || len_high != len_close) {
+    efree(in_high);
+    efree(in_low);
+    efree(in_close);
+    zend_throw_error(NULL, "Input arrays must have the same length");
+    RETURN_THROWS();
+  }
+
+  double *out_real = emalloc(sizeof(double) * len_high);
+  int out_beg = 0;
+  int out_nb = 0;
+  TA_RetCode rc = TA_WCLPRICE(0, len_high - 1, in_high, in_low, in_close, &out_beg, &out_nb, out_real);
+
+  if (rc != TA_SUCCESS) {
+    efree(in_high);
+    efree(in_low);
+    efree(in_close);
+    efree(out_real);
+    zend_throw_error(NULL, "TA_WCLPRICE failed (code %d)", rc);
+    RETURN_THROWS();
+  }
+
+  ta_fill_output_array(return_value, out_beg, out_nb, out_real);
+
+  efree(in_high);
+  efree(in_low);
+  efree(in_close);
+  efree(out_real);
+#else
+  zend_throw_error(NULL, "TA-Lib not available");
+  RETURN_THROWS();
+#endif
+}
+
 PHP_FUNCTION(ta_bbands)
 {
   zval *input = NULL;
@@ -2356,6 +2708,11 @@ static const zend_function_entry ta_functions[] = {
   PHP_FE(ta_sqrt, arginfo_ta_sqrt)
   PHP_FE(ta_tan, arginfo_ta_tan)
   PHP_FE(ta_tanh, arginfo_ta_tanh)
+  PHP_FE(ta_avgprice, arginfo_ta_avgprice)
+  PHP_FE(ta_avgdev, arginfo_ta_avgdev)
+  PHP_FE(ta_medprice, arginfo_ta_medprice)
+  PHP_FE(ta_typprice, arginfo_ta_typprice)
+  PHP_FE(ta_wclprice, arginfo_ta_wclprice)
   PHP_FE(ta_bbands, arginfo_ta_bbands)
   PHP_FE_END
 };
