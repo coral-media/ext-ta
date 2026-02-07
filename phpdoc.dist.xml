@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpdocumentor
+    configVersion="3"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="https://docs.phpdoc.org/latest/phpdoc.xsd"
+>
+    <title>TA Lib (Technical Analysis) Extension</title>
+
+    <paths>
+        <output>docs/api</output>
+        <cache>.phpdoc/cache</cache>
+    </paths>
+
+    <version number="latest">
+        <api>
+            <source dsn=".">
+                <path>ta.stub.php</path>
+            </source>
+        </api>
+    </version>
+
+    <templates>
+        <template name="markdown" location="docs/themes" />
+    </templates>
+
+    <setting name="urlFileExtensions" value="yes"/>
+</phpdocumentor>

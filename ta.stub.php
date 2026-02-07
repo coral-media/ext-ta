@@ -334,39 +334,57 @@ function ta_bbands(array $values, int $period = 5, float $nbDevUp = 2.0, float $
  * Moving average type constants.
  */
 /**
- * @var int Moving average type: SMA.
+ * Simple Moving Average (SMA).
+ *
+ * @var int
  */
 const TA_MA_TYPE_SMA = 0;
 /**
- * @var int Moving average type: EMA.
+ * Exponential Moving Average (EMA).
+ *
+ * @var int
  */
 const TA_MA_TYPE_EMA = 1;
 /**
- * @var int Moving average type: WMA.
+ * Weighted Moving Average (WMA).
+ *
+ * @var int
  */
 const TA_MA_TYPE_WMA = 2;
 /**
- * @var int Moving average type: DEMA.
+ * Double Exponential Moving Average (DEMA).
+ *
+ * @var int
  */
 const TA_MA_TYPE_DEMA = 3;
 /**
- * @var int Moving average type: TEMA.
+ * Triple Exponential Moving Average (TEMA).
+ *
+ * @var int
  */
 const TA_MA_TYPE_TEMA = 4;
 /**
- * @var int Moving average type: TRIMA.
+ * Triangular Moving Average (TRIMA).
+ *
+ * @var int
  */
 const TA_MA_TYPE_TRIMA = 5;
 /**
- * @var int Moving average type: KAMA.
+ * Kaufman Adaptive Moving Average (KAMA).
+ *
+ * @var int
  */
 const TA_MA_TYPE_KAMA = 6;
 /**
- * @var int Moving average type: MAMA.
+ * MESA Adaptive Moving Average (MAMA).
+ *
+ * @var int
  */
 const TA_MA_TYPE_MAMA = 7;
 /**
- * @var int Moving average type: T3.
+ * Triple Exponential Moving Average (T3).
+ *
+ * @var int
  */
 const TA_MA_TYPE_T3 = 8;
 
@@ -374,11 +392,15 @@ const TA_MA_TYPE_T3 = 8;
  * TA-Lib real range constants.
  */
 /**
- * @var float Runtime value is TA_REAL_MIN from TA-Lib (-3e+37).
+ * Minimum TA-Lib real value (-3e+37).
+ *
+ * @var float
  */
 const TA_REAL_MIN = 0.0;
 /**
- * @var float Runtime value is TA_REAL_MAX from TA-Lib (3e+37).
+ * Maximum TA-Lib real value (3e+37).
+ *
+ * @var float
  */
 const TA_REAL_MAX = 0.0;
 
@@ -386,6 +408,8 @@ const TA_REAL_MAX = 0.0;
  * Lookback constants.
  */
 /**
- * @var int Runtime value is TA_HT_TRENDLINE_Lookback() from TA-Lib.
+ * Lookback for HT_TRENDLINE (TA_HT_TRENDLINE_Lookback() from TA-Lib).
+ *
+ * @var int
  */
 const TA_HT_TRENDLINE_LOOKBACK = 0;
