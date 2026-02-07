@@ -1,5 +1,5 @@
 /* This is a generated file, edit the .stub.php file instead.
- * Stub hash: 007a7b0ac9a6a3cba7e1c6cf993a7a128b66ad34 */
+ * Stub hash: bc80b49829d1023342e3a3fff3f52a9d71f9ee28 */
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_ta_version, 0, 0, IS_STRING, 0)
 ZEND_END_ARG_INFO()
@@ -131,6 +131,57 @@ ZEND_END_ARG_INFO()
 #define arginfo_ta_minmax arginfo_ta_sum
 
 #define arginfo_ta_minmaxindex arginfo_ta_sum
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_ta_ad, 0, 4, IS_ARRAY, 0)
+	ZEND_ARG_TYPE_INFO(0, high, IS_ARRAY, 0)
+	ZEND_ARG_TYPE_INFO(0, low, IS_ARRAY, 0)
+	ZEND_ARG_TYPE_INFO(0, close, IS_ARRAY, 0)
+	ZEND_ARG_TYPE_INFO(0, volume, IS_ARRAY, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_ta_adosc, 0, 4, IS_ARRAY, 0)
+	ZEND_ARG_TYPE_INFO(0, high, IS_ARRAY, 0)
+	ZEND_ARG_TYPE_INFO(0, low, IS_ARRAY, 0)
+	ZEND_ARG_TYPE_INFO(0, close, IS_ARRAY, 0)
+	ZEND_ARG_TYPE_INFO(0, volume, IS_ARRAY, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, fastPeriod, IS_LONG, 0, "3")
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, slowPeriod, IS_LONG, 0, "10")
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_ta_obv, 0, 2, IS_ARRAY, 0)
+	ZEND_ARG_TYPE_INFO(0, values, IS_ARRAY, 0)
+	ZEND_ARG_TYPE_INFO(0, volume, IS_ARRAY, 0)
+ZEND_END_ARG_INFO()
+
+#define arginfo_ta_acos arginfo_ta_ht_trendline
+
+#define arginfo_ta_asin arginfo_ta_ht_trendline
+
+#define arginfo_ta_atan arginfo_ta_ht_trendline
+
+#define arginfo_ta_ceil arginfo_ta_ht_trendline
+
+#define arginfo_ta_cos arginfo_ta_ht_trendline
+
+#define arginfo_ta_cosh arginfo_ta_ht_trendline
+
+#define arginfo_ta_exp arginfo_ta_ht_trendline
+
+#define arginfo_ta_floor arginfo_ta_ht_trendline
+
+#define arginfo_ta_ln arginfo_ta_ht_trendline
+
+#define arginfo_ta_log10 arginfo_ta_ht_trendline
+
+#define arginfo_ta_sin arginfo_ta_ht_trendline
+
+#define arginfo_ta_sinh arginfo_ta_ht_trendline
+
+#define arginfo_ta_sqrt arginfo_ta_ht_trendline
+
+#define arginfo_ta_tan arginfo_ta_ht_trendline
+
+#define arginfo_ta_tanh arginfo_ta_ht_trendline
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_ta_bbands, 0, 1, IS_ARRAY, 0)
 	ZEND_ARG_TYPE_INFO(0, values, IS_ARRAY, 0)

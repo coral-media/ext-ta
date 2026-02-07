@@ -319,6 +319,159 @@ function ta_minmax(array $values, int $period = 30): array {}
 function ta_minmaxindex(array $values, int $period = 30): array {}
 
 /**
+ * Chaikin A/D Line (AD).
+ *
+ * @param float[] $high
+ * @param float[] $low
+ * @param float[] $close
+ * @param float[] $volume
+ * @return array<int, float|null>
+ */
+function ta_ad(array $high, array $low, array $close, array $volume): array {}
+
+/**
+ * Chaikin A/D Oscillator (ADOSC).
+ *
+ * @param float[] $high
+ * @param float[] $low
+ * @param float[] $close
+ * @param float[] $volume
+ * @param int $fastPeriod Default 3
+ * @param int $slowPeriod Default 10
+ * @return array<int, float|null>
+ */
+function ta_adosc(array $high, array $low, array $close, array $volume, int $fastPeriod = 3, int $slowPeriod = 10): array {}
+
+/**
+ * On Balance Volume (OBV).
+ *
+ * @param float[] $values
+ * @param float[] $volume
+ * @return array<int, float|null>
+ */
+function ta_obv(array $values, array $volume): array {}
+
+/**
+ * Vector Trigonometric ACos (ACOS).
+ *
+ * @param float[] $values
+ * @return array<int, float|null>
+ */
+function ta_acos(array $values): array {}
+
+/**
+ * Vector Trigonometric ASin (ASIN).
+ *
+ * @param float[] $values
+ * @return array<int, float|null>
+ */
+function ta_asin(array $values): array {}
+
+/**
+ * Vector Trigonometric ATan (ATAN).
+ *
+ * @param float[] $values
+ * @return array<int, float|null>
+ */
+function ta_atan(array $values): array {}
+
+/**
+ * Vector Ceil (CEIL).
+ *
+ * @param float[] $values
+ * @return array<int, float|null>
+ */
+function ta_ceil(array $values): array {}
+
+/**
+ * Vector Trigonometric Cos (COS).
+ *
+ * @param float[] $values
+ * @return array<int, float|null>
+ */
+function ta_cos(array $values): array {}
+
+/**
+ * Vector Trigonometric Cosh (COSH).
+ *
+ * @param float[] $values
+ * @return array<int, float|null>
+ */
+function ta_cosh(array $values): array {}
+
+/**
+ * Vector Exp (EXP).
+ *
+ * @param float[] $values
+ * @return array<int, float|null>
+ */
+function ta_exp(array $values): array {}
+
+/**
+ * Vector Floor (FLOOR).
+ *
+ * @param float[] $values
+ * @return array<int, float|null>
+ */
+function ta_floor(array $values): array {}
+
+/**
+ * Vector Log Natural (LN).
+ *
+ * @param float[] $values
+ * @return array<int, float|null>
+ */
+function ta_ln(array $values): array {}
+
+/**
+ * Vector Log10 (LOG10).
+ *
+ * @param float[] $values
+ * @return array<int, float|null>
+ */
+function ta_log10(array $values): array {}
+
+/**
+ * Vector Trigonometric Sin (SIN).
+ *
+ * @param float[] $values
+ * @return array<int, float|null>
+ */
+function ta_sin(array $values): array {}
+
+/**
+ * Vector Trigonometric Sinh (SINH).
+ *
+ * @param float[] $values
+ * @return array<int, float|null>
+ */
+function ta_sinh(array $values): array {}
+
+/**
+ * Vector Square Root (SQRT).
+ *
+ * @param float[] $values
+ * @return array<int, float|null>
+ */
+function ta_sqrt(array $values): array {}
+
+/**
+ * Vector Trigonometric Tan (TAN).
+ *
+ * @param float[] $values
+ * @return array<int, float|null>
+ */
+function ta_tan(array $values): array {}
+
+/**
+ * Vector Trigonometric Tanh (TANH).
+ *
+ * @param float[] $values
+ * @return array<int, float|null>
+ */
+function ta_tanh(array $values): array {}
+
+/**
  * Bollinger Bands (BBANDS).
  *
  * @param float[] $values

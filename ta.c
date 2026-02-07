@@ -12,6 +12,7 @@
 #include "ta_func.h"
 
 typedef TA_RetCode (*ta_ma_fn)(int, int, const double[], int, int*, int*, double[]);
+typedef TA_RetCode (*ta_unary_fn)(int, int, const double[], int*, int*, double[]);
 
 static int ta_read_double_array(zval *input, double **out_real, int *out_len, const char *fn_name)
 {
@@ -51,6 +52,48 @@ static void ta_fill_output_array(zval *return_value, int out_beg, int out_nb, do
   for (i = 0; i < out_nb; i++) {
     add_index_double(return_value, out_beg + i, out_real[i]);
   }
+}
+
+static void ta_unary_common(INTERNAL_FUNCTION_PARAMETERS, const char *fn_name, ta_unary_fn fn)
+{
+  zval *input = NULL;
+
+  ZEND_PARSE_PARAMETERS_START(1, 1)
+    Z_PARAM_ARRAY(input)
+  ZEND_PARSE_PARAMETERS_END();
+
+#ifdef HAVE_TA
+  double *in_real = NULL;
+  int input_len = 0;
+  if (!ta_read_double_array(input, &in_real, &input_len, fn_name)) {
+    RETURN_THROWS();
+  }
+
+  if (input_len <= 0) {
+    array_init(return_value);
+    return;
+  }
+
+  double *out_real = emalloc(sizeof(double) * input_len);
+  int out_beg = 0;
+  int out_nb = 0;
+  TA_RetCode rc = fn(0, input_len - 1, in_real, &out_beg, &out_nb, out_real);
+
+  if (rc != TA_SUCCESS) {
+    efree(in_real);
+    efree(out_real);
+    zend_throw_error(NULL, "%s failed (code %d)", fn_name, rc);
+    RETURN_THROWS();
+  }
+
+  ta_fill_output_array(return_value, out_beg, out_nb, out_real);
+
+  efree(in_real);
+  efree(out_real);
+#else
+  zend_throw_error(NULL, "TA-Lib not available");
+  RETURN_THROWS();
+#endif
 }
 
 static void ta_fill_output_array_int(zval *return_value, int out_beg, int out_nb, int *out_int)
@@ -1841,6 +1884,330 @@ PHP_FUNCTION(ta_minmaxindex)
 #endif
 }
 
+PHP_FUNCTION(ta_ad)
+{
+  zval *high = NULL;
+  zval *low = NULL;
+  zval *close = NULL;
+  zval *volume = NULL;
+
+  ZEND_PARSE_PARAMETERS_START(4, 4)
+    Z_PARAM_ARRAY(high)
+    Z_PARAM_ARRAY(low)
+    Z_PARAM_ARRAY(close)
+    Z_PARAM_ARRAY(volume)
+  ZEND_PARSE_PARAMETERS_END();
+
+#ifdef HAVE_TA
+  double *in_high = NULL;
+  double *in_low = NULL;
+  double *in_close = NULL;
+  double *in_volume = NULL;
+  int len_high = 0;
+  int len_low = 0;
+  int len_close = 0;
+  int len_volume = 0;
+
+  if (!ta_read_double_array(high, &in_high, &len_high, "ta_ad")) {
+    RETURN_THROWS();
+  }
+  if (!ta_read_double_array(low, &in_low, &len_low, "ta_ad")) {
+    if (in_high) efree(in_high);
+    RETURN_THROWS();
+  }
+  if (!ta_read_double_array(close, &in_close, &len_close, "ta_ad")) {
+    if (in_high) efree(in_high);
+    if (in_low) efree(in_low);
+    RETURN_THROWS();
+  }
+  if (!ta_read_double_array(volume, &in_volume, &len_volume, "ta_ad")) {
+    if (in_high) efree(in_high);
+    if (in_low) efree(in_low);
+    if (in_close) efree(in_close);
+    RETURN_THROWS();
+  }
+
+  if (len_high <= 0 || len_low <= 0 || len_close <= 0 || len_volume <= 0) {
+    if (in_high) efree(in_high);
+    if (in_low) efree(in_low);
+    if (in_close) efree(in_close);
+    if (in_volume) efree(in_volume);
+    array_init(return_value);
+    return;
+  }
+
+  if (len_high != len_low || len_high != len_close || len_high != len_volume) {
+    efree(in_high);
+    efree(in_low);
+    efree(in_close);
+    efree(in_volume);
+    zend_throw_error(NULL, "Input arrays must have the same length");
+    RETURN_THROWS();
+  }
+
+  double *out_real = emalloc(sizeof(double) * len_high);
+  int out_beg = 0;
+  int out_nb = 0;
+  TA_RetCode rc = TA_AD(0, len_high - 1, in_high, in_low, in_close, in_volume, &out_beg, &out_nb, out_real);
+
+  if (rc != TA_SUCCESS) {
+    efree(in_high);
+    efree(in_low);
+    efree(in_close);
+    efree(in_volume);
+    efree(out_real);
+    zend_throw_error(NULL, "TA_AD failed (code %d)", rc);
+    RETURN_THROWS();
+  }
+
+  ta_fill_output_array(return_value, out_beg, out_nb, out_real);
+
+  efree(in_high);
+  efree(in_low);
+  efree(in_close);
+  efree(in_volume);
+  efree(out_real);
+#else
+  zend_throw_error(NULL, "TA-Lib not available");
+  RETURN_THROWS();
+#endif
+}
+
+PHP_FUNCTION(ta_adosc)
+{
+  zval *high = NULL;
+  zval *low = NULL;
+  zval *close = NULL;
+  zval *volume = NULL;
+  zend_long fast_period = 3;
+  zend_long slow_period = 10;
+
+  ZEND_PARSE_PARAMETERS_START(4, 6)
+    Z_PARAM_ARRAY(high)
+    Z_PARAM_ARRAY(low)
+    Z_PARAM_ARRAY(close)
+    Z_PARAM_ARRAY(volume)
+    Z_PARAM_OPTIONAL
+    Z_PARAM_LONG(fast_period)
+    Z_PARAM_LONG(slow_period)
+  ZEND_PARSE_PARAMETERS_END();
+
+#ifdef HAVE_TA
+  if (fast_period < 2 || fast_period > 100000 || slow_period < 2 || slow_period > 100000) {
+    zend_throw_error(NULL, "Fast/Slow periods must be between 2 and 100000");
+    RETURN_THROWS();
+  }
+
+  double *in_high = NULL;
+  double *in_low = NULL;
+  double *in_close = NULL;
+  double *in_volume = NULL;
+  int len_high = 0;
+  int len_low = 0;
+  int len_close = 0;
+  int len_volume = 0;
+
+  if (!ta_read_double_array(high, &in_high, &len_high, "ta_adosc")) {
+    RETURN_THROWS();
+  }
+  if (!ta_read_double_array(low, &in_low, &len_low, "ta_adosc")) {
+    if (in_high) efree(in_high);
+    RETURN_THROWS();
+  }
+  if (!ta_read_double_array(close, &in_close, &len_close, "ta_adosc")) {
+    if (in_high) efree(in_high);
+    if (in_low) efree(in_low);
+    RETURN_THROWS();
+  }
+  if (!ta_read_double_array(volume, &in_volume, &len_volume, "ta_adosc")) {
+    if (in_high) efree(in_high);
+    if (in_low) efree(in_low);
+    if (in_close) efree(in_close);
+    RETURN_THROWS();
+  }
+
+  if (len_high <= 0 || len_low <= 0 || len_close <= 0 || len_volume <= 0) {
+    if (in_high) efree(in_high);
+    if (in_low) efree(in_low);
+    if (in_close) efree(in_close);
+    if (in_volume) efree(in_volume);
+    array_init(return_value);
+    return;
+  }
+
+  if (len_high != len_low || len_high != len_close || len_high != len_volume) {
+    efree(in_high);
+    efree(in_low);
+    efree(in_close);
+    efree(in_volume);
+    zend_throw_error(NULL, "Input arrays must have the same length");
+    RETURN_THROWS();
+  }
+
+  double *out_real = emalloc(sizeof(double) * len_high);
+  int out_beg = 0;
+  int out_nb = 0;
+  TA_RetCode rc = TA_ADOSC(0, len_high - 1, in_high, in_low, in_close, in_volume, (int) fast_period, (int) slow_period, &out_beg, &out_nb, out_real);
+
+  if (rc != TA_SUCCESS) {
+    efree(in_high);
+    efree(in_low);
+    efree(in_close);
+    efree(in_volume);
+    efree(out_real);
+    zend_throw_error(NULL, "TA_ADOSC failed (code %d)", rc);
+    RETURN_THROWS();
+  }
+
+  ta_fill_output_array(return_value, out_beg, out_nb, out_real);
+
+  efree(in_high);
+  efree(in_low);
+  efree(in_close);
+  efree(in_volume);
+  efree(out_real);
+#else
+  zend_throw_error(NULL, "TA-Lib not available");
+  RETURN_THROWS();
+#endif
+}
+
+PHP_FUNCTION(ta_obv)
+{
+  zval *values = NULL;
+  zval *volume = NULL;
+
+  ZEND_PARSE_PARAMETERS_START(2, 2)
+    Z_PARAM_ARRAY(values)
+    Z_PARAM_ARRAY(volume)
+  ZEND_PARSE_PARAMETERS_END();
+
+#ifdef HAVE_TA
+  double *in_values = NULL;
+  double *in_volume = NULL;
+  int len_values = 0;
+  int len_volume = 0;
+
+  if (!ta_read_double_array(values, &in_values, &len_values, "ta_obv")) {
+    RETURN_THROWS();
+  }
+  if (!ta_read_double_array(volume, &in_volume, &len_volume, "ta_obv")) {
+    if (in_values) efree(in_values);
+    RETURN_THROWS();
+  }
+
+  if (len_values <= 0 || len_volume <= 0) {
+    if (in_values) efree(in_values);
+    if (in_volume) efree(in_volume);
+    array_init(return_value);
+    return;
+  }
+  if (len_values != len_volume) {
+    efree(in_values);
+    efree(in_volume);
+    zend_throw_error(NULL, "Input arrays must have the same length");
+    RETURN_THROWS();
+  }
+
+  double *out_real = emalloc(sizeof(double) * len_values);
+  int out_beg = 0;
+  int out_nb = 0;
+  TA_RetCode rc = TA_OBV(0, len_values - 1, in_values, in_volume, &out_beg, &out_nb, out_real);
+
+  if (rc != TA_SUCCESS) {
+    efree(in_values);
+    efree(in_volume);
+    efree(out_real);
+    zend_throw_error(NULL, "TA_OBV failed (code %d)", rc);
+    RETURN_THROWS();
+  }
+
+  ta_fill_output_array(return_value, out_beg, out_nb, out_real);
+
+  efree(in_values);
+  efree(in_volume);
+  efree(out_real);
+#else
+  zend_throw_error(NULL, "TA-Lib not available");
+  RETURN_THROWS();
+#endif
+}
+
+PHP_FUNCTION(ta_acos)
+{
+  ta_unary_common(INTERNAL_FUNCTION_PARAM_PASSTHRU, "ta_acos", TA_ACOS);
+}
+
+PHP_FUNCTION(ta_asin)
+{
+  ta_unary_common(INTERNAL_FUNCTION_PARAM_PASSTHRU, "ta_asin", TA_ASIN);
+}
+
+PHP_FUNCTION(ta_atan)
+{
+  ta_unary_common(INTERNAL_FUNCTION_PARAM_PASSTHRU, "ta_atan", TA_ATAN);
+}
+
+PHP_FUNCTION(ta_ceil)
+{
+  ta_unary_common(INTERNAL_FUNCTION_PARAM_PASSTHRU, "ta_ceil", TA_CEIL);
+}
+
+PHP_FUNCTION(ta_cos)
+{
+  ta_unary_common(INTERNAL_FUNCTION_PARAM_PASSTHRU, "ta_cos", TA_COS);
+}
+
+PHP_FUNCTION(ta_cosh)
+{
+  ta_unary_common(INTERNAL_FUNCTION_PARAM_PASSTHRU, "ta_cosh", TA_COSH);
+}
+
+PHP_FUNCTION(ta_exp)
+{
+  ta_unary_common(INTERNAL_FUNCTION_PARAM_PASSTHRU, "ta_exp", TA_EXP);
+}
+
+PHP_FUNCTION(ta_floor)
+{
+  ta_unary_common(INTERNAL_FUNCTION_PARAM_PASSTHRU, "ta_floor", TA_FLOOR);
+}
+
+PHP_FUNCTION(ta_ln)
+{
+  ta_unary_common(INTERNAL_FUNCTION_PARAM_PASSTHRU, "ta_ln", TA_LN);
+}
+
+PHP_FUNCTION(ta_log10)
+{
+  ta_unary_common(INTERNAL_FUNCTION_PARAM_PASSTHRU, "ta_log10", TA_LOG10);
+}
+
+PHP_FUNCTION(ta_sin)
+{
+  ta_unary_common(INTERNAL_FUNCTION_PARAM_PASSTHRU, "ta_sin", TA_SIN);
+}
+
+PHP_FUNCTION(ta_sinh)
+{
+  ta_unary_common(INTERNAL_FUNCTION_PARAM_PASSTHRU, "ta_sinh", TA_SINH);
+}
+
+PHP_FUNCTION(ta_sqrt)
+{
+  ta_unary_common(INTERNAL_FUNCTION_PARAM_PASSTHRU, "ta_sqrt", TA_SQRT);
+}
+
+PHP_FUNCTION(ta_tan)
+{
+  ta_unary_common(INTERNAL_FUNCTION_PARAM_PASSTHRU, "ta_tan", TA_TAN);
+}
+
+PHP_FUNCTION(ta_tanh)
+{
+  ta_unary_common(INTERNAL_FUNCTION_PARAM_PASSTHRU, "ta_tanh", TA_TANH);
+}
+
 PHP_FUNCTION(ta_bbands)
 {
   zval *input = NULL;
@@ -1971,6 +2338,24 @@ static const zend_function_entry ta_functions[] = {
   PHP_FE(ta_minindex, arginfo_ta_minindex)
   PHP_FE(ta_minmax, arginfo_ta_minmax)
   PHP_FE(ta_minmaxindex, arginfo_ta_minmaxindex)
+  PHP_FE(ta_ad, arginfo_ta_ad)
+  PHP_FE(ta_adosc, arginfo_ta_adosc)
+  PHP_FE(ta_obv, arginfo_ta_obv)
+  PHP_FE(ta_acos, arginfo_ta_acos)
+  PHP_FE(ta_asin, arginfo_ta_asin)
+  PHP_FE(ta_atan, arginfo_ta_atan)
+  PHP_FE(ta_ceil, arginfo_ta_ceil)
+  PHP_FE(ta_cos, arginfo_ta_cos)
+  PHP_FE(ta_cosh, arginfo_ta_cosh)
+  PHP_FE(ta_exp, arginfo_ta_exp)
+  PHP_FE(ta_floor, arginfo_ta_floor)
+  PHP_FE(ta_ln, arginfo_ta_ln)
+  PHP_FE(ta_log10, arginfo_ta_log10)
+  PHP_FE(ta_sin, arginfo_ta_sin)
+  PHP_FE(ta_sinh, arginfo_ta_sinh)
+  PHP_FE(ta_sqrt, arginfo_ta_sqrt)
+  PHP_FE(ta_tan, arginfo_ta_tan)
+  PHP_FE(ta_tanh, arginfo_ta_tanh)
   PHP_FE(ta_bbands, arginfo_ta_bbands)
   PHP_FE_END
 };
