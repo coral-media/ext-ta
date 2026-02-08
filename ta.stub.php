@@ -676,6 +676,246 @@ function ta_stochrsi(
 ): array {}
 
 
+
+/**
+ * Average Directional Movement Index (ADX).
+ *
+ * @param float[] $high
+ * @param float[] $low
+ * @param float[] $close
+ * @param int $period Default 14
+ * @return array<int, float|null>
+ */
+function ta_adx(array $high, array $low, array $close, int $period = 14): array {}
+
+/**
+ * Average Directional Movement Index Rating (ADXR).
+ *
+ * @param float[] $high
+ * @param float[] $low
+ * @param float[] $close
+ * @param int $period Default 14
+ * @return array<int, float|null>
+ */
+function ta_adxr(array $high, array $low, array $close, int $period = 14): array {}
+
+/**
+ * Absolute Price Oscillator (APO).
+ *
+ * @param float[] $values
+ * @param int $fastPeriod Default 12
+ * @param int $slowPeriod Default 26
+ * @param int $maType Default TA_MA_TYPE_SMA
+ * @return array<int, float|null>
+ */
+function ta_apo(array $values, int $fastPeriod = 12, int $slowPeriod = 26, int $maType = TA_MA_TYPE_SMA): array {}
+
+/**
+ * Aroon (AROON).
+ *
+ * @param float[] $high
+ * @param float[] $low
+ * @param int $period Default 14
+ * @return array{down: array<int, float|null>, up: array<int, float|null>}
+ */
+function ta_aroon(array $high, array $low, int $period = 14): array {}
+
+/**
+ * Aroon Oscillator (AROONOSC).
+ *
+ * @param float[] $high
+ * @param float[] $low
+ * @param int $period Default 14
+ * @return array<int, float|null>
+ */
+function ta_aroonosc(array $high, array $low, int $period = 14): array {}
+
+/**
+ * Balance Of Power (BOP).
+ *
+ * @param float[] $open
+ * @param float[] $high
+ * @param float[] $low
+ * @param float[] $close
+ * @return array<int, float|null>
+ */
+function ta_bop(array $open, array $high, array $low, array $close): array {}
+
+/**
+ * Commodity Channel Index (CCI).
+ *
+ * @param float[] $high
+ * @param float[] $low
+ * @param float[] $close
+ * @param int $period Default 14
+ * @return array<int, float|null>
+ */
+function ta_cci(array $high, array $low, array $close, int $period = 14): array {}
+
+/**
+ * Directional Movement Index (DX).
+ *
+ * @param float[] $high
+ * @param float[] $low
+ * @param float[] $close
+ * @param int $period Default 14
+ * @return array<int, float|null>
+ */
+function ta_dx(array $high, array $low, array $close, int $period = 14): array {}
+
+/**
+ * Intraday Momentum Index (IMI).
+ *
+ * @param float[] $open
+ * @param float[] $close
+ * @param int $period Default 14
+ * @return array<int, float|null>
+ */
+function ta_imi(array $open, array $close, int $period = 14): array {}
+
+/**
+ * Money Flow Index (MFI).
+ *
+ * @param float[] $high
+ * @param float[] $low
+ * @param float[] $close
+ * @param float[] $volume
+ * @param int $period Default 14
+ * @return array<int, float|null>
+ */
+function ta_mfi(array $high, array $low, array $close, array $volume, int $period = 14): array {}
+
+/**
+ * Minus Directional Indicator (MINUS_DI).
+ *
+ * @param float[] $high
+ * @param float[] $low
+ * @param float[] $close
+ * @param int $period Default 14
+ * @return array<int, float|null>
+ */
+function ta_minus_di(array $high, array $low, array $close, int $period = 14): array {}
+
+/**
+ * Minus Directional Movement (MINUS_DM).
+ *
+ * @param float[] $high
+ * @param float[] $low
+ * @param int $period Default 14
+ * @return array<int, float|null>
+ */
+function ta_minus_dm(array $high, array $low, int $period = 14): array {}
+
+/**
+ * Plus Directional Indicator (PLUS_DI).
+ *
+ * @param float[] $high
+ * @param float[] $low
+ * @param float[] $close
+ * @param int $period Default 14
+ * @return array<int, float|null>
+ */
+function ta_plus_di(array $high, array $low, array $close, int $period = 14): array {}
+
+/**
+ * Plus Directional Movement (PLUS_DM).
+ *
+ * @param float[] $high
+ * @param float[] $low
+ * @param int $period Default 14
+ * @return array<int, float|null>
+ */
+function ta_plus_dm(array $high, array $low, int $period = 14): array {}
+
+/**
+ * Percentage Price Oscillator (PPO).
+ *
+ * @param float[] $values
+ * @param int $fastPeriod Default 12
+ * @param int $slowPeriod Default 26
+ * @param int $maType Default TA_MA_TYPE_SMA
+ * @return array<int, float|null>
+ */
+function ta_ppo(array $values, int $fastPeriod = 12, int $slowPeriod = 26, int $maType = TA_MA_TYPE_SMA): array {}
+
+/**
+ * Rate of Change (ROC).
+ *
+ * @param float[] $values
+ * @param int $period Default 10
+ * @return array<int, float|null>
+ */
+function ta_roc(array $values, int $period = 10): array {}
+
+/**
+ * Rate of Change Percentage (ROCP).
+ *
+ * @param float[] $values
+ * @param int $period Default 10
+ * @return array<int, float|null>
+ */
+function ta_rocp(array $values, int $period = 10): array {}
+
+/**
+ * Rate of Change Ratio (ROCR).
+ *
+ * @param float[] $values
+ * @param int $period Default 10
+ * @return array<int, float|null>
+ */
+function ta_rocr(array $values, int $period = 10): array {}
+
+/**
+ * Rate of Change Ratio 100 scale (ROCR100).
+ *
+ * @param float[] $values
+ * @param int $period Default 10
+ * @return array<int, float|null>
+ */
+function ta_rocr100(array $values, int $period = 10): array {}
+
+/**
+ * Relative Strength Index (RSI).
+ *
+ * @param float[] $values
+ * @param int $period Default 14
+ * @return array<int, float|null>
+ */
+function ta_rsi(array $values, int $period = 14): array {}
+
+/**
+ * Triple Exponential Moving Average (TRIX).
+ *
+ * @param float[] $values
+ * @param int $period Default 30
+ * @return array<int, float|null>
+ */
+function ta_trix(array $values, int $period = 30): array {}
+
+/**
+ * Ultimate Oscillator (ULTOSC).
+ *
+ * @param float[] $high
+ * @param float[] $low
+ * @param float[] $close
+ * @param int $period1 Default 7
+ * @param int $period2 Default 14
+ * @param int $period3 Default 28
+ * @return array<int, float|null>
+ */
+function ta_ultosc(array $high, array $low, array $close, int $period1 = 7, int $period2 = 14, int $period3 = 28): array {}
+
+/**
+ * Williams %R (WILLR).
+ *
+ * @param float[] $high
+ * @param float[] $low
+ * @param float[] $close
+ * @param int $period Default 14
+ * @return array<int, float|null>
+ */
+function ta_willr(array $high, array $low, array $close, int $period = 14): array {}
+
 /**
  * Beta (BETA).
  *

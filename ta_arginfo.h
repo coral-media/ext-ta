@@ -1,5 +1,5 @@
 /* This is a generated file, edit the .stub.php file instead.
- * Stub hash: 106b7392b86c4281d8922b0c81295aa8ab92198a */
+ * Stub hash: 98a6424c063ab67e52040e35a9b7dd5ccd9fe535 */
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_ta_version, 0, 0, IS_STRING, 0)
 ZEND_END_ARG_INFO()
@@ -262,6 +262,77 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_ta_stochrsi, 0, 1, IS_ARRAY, 0)
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, fastDPeriod, IS_LONG, 0, "3")
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, fastDMaType, IS_LONG, 0, "TA_MA_TYPE_SMA")
 ZEND_END_ARG_INFO()
+
+#define arginfo_ta_adx arginfo_ta_atr
+
+#define arginfo_ta_adxr arginfo_ta_atr
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_ta_apo, 0, 1, IS_ARRAY, 0)
+	ZEND_ARG_TYPE_INFO(0, values, IS_ARRAY, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, fastPeriod, IS_LONG, 0, "12")
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, slowPeriod, IS_LONG, 0, "26")
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, maType, IS_LONG, 0, "TA_MA_TYPE_SMA")
+ZEND_END_ARG_INFO()
+
+#define arginfo_ta_aroon arginfo_ta_midprice
+
+#define arginfo_ta_aroonosc arginfo_ta_midprice
+
+#define arginfo_ta_bop arginfo_ta_avgprice
+
+#define arginfo_ta_cci arginfo_ta_atr
+
+#define arginfo_ta_dx arginfo_ta_atr
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_ta_imi, 0, 2, IS_ARRAY, 0)
+	ZEND_ARG_TYPE_INFO(0, open, IS_ARRAY, 0)
+	ZEND_ARG_TYPE_INFO(0, close, IS_ARRAY, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, period, IS_LONG, 0, "14")
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_ta_mfi, 0, 4, IS_ARRAY, 0)
+	ZEND_ARG_TYPE_INFO(0, high, IS_ARRAY, 0)
+	ZEND_ARG_TYPE_INFO(0, low, IS_ARRAY, 0)
+	ZEND_ARG_TYPE_INFO(0, close, IS_ARRAY, 0)
+	ZEND_ARG_TYPE_INFO(0, volume, IS_ARRAY, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, period, IS_LONG, 0, "14")
+ZEND_END_ARG_INFO()
+
+#define arginfo_ta_minus_di arginfo_ta_atr
+
+#define arginfo_ta_minus_dm arginfo_ta_midprice
+
+#define arginfo_ta_plus_di arginfo_ta_atr
+
+#define arginfo_ta_plus_dm arginfo_ta_midprice
+
+#define arginfo_ta_ppo arginfo_ta_apo
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_ta_roc, 0, 1, IS_ARRAY, 0)
+	ZEND_ARG_TYPE_INFO(0, values, IS_ARRAY, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, period, IS_LONG, 0, "10")
+ZEND_END_ARG_INFO()
+
+#define arginfo_ta_rocp arginfo_ta_roc
+
+#define arginfo_ta_rocr arginfo_ta_roc
+
+#define arginfo_ta_rocr100 arginfo_ta_roc
+
+#define arginfo_ta_rsi arginfo_ta_midpoint
+
+#define arginfo_ta_trix arginfo_ta_sum
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_ta_ultosc, 0, 3, IS_ARRAY, 0)
+	ZEND_ARG_TYPE_INFO(0, high, IS_ARRAY, 0)
+	ZEND_ARG_TYPE_INFO(0, low, IS_ARRAY, 0)
+	ZEND_ARG_TYPE_INFO(0, close, IS_ARRAY, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, period1, IS_LONG, 0, "7")
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, period2, IS_LONG, 0, "14")
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, period3, IS_LONG, 0, "28")
+ZEND_END_ARG_INFO()
+
+#define arginfo_ta_willr arginfo_ta_atr
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_ta_beta, 0, 2, IS_ARRAY, 0)
 	ZEND_ARG_TYPE_INFO(0, valuesA, IS_ARRAY, 0)
