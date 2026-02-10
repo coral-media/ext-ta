@@ -4,7 +4,7 @@
 
 #include "php.h"
 #include "ext/standard/info.h"
-#include "php_ta.h"
+#include "php_ta_lib.h"
 
 #include "ta_arginfo.h"
 #include "ta_common.h"
@@ -419,7 +419,7 @@ static void ta_ma_period_common(INTERNAL_FUNCTION_PARAMETERS, const char *fn_nam
 PHP_FUNCTION(ta_version)
 {
 #ifdef HAVE_TA
-  RETURN_STRING(PHP_TA_VERSION);
+  RETURN_STRING(PHP_TA_LIB_VERSION);
 #else
   RETURN_STRING("no-ta-lib");
 #endif
@@ -6466,7 +6466,7 @@ static const zend_function_entry ta_functions[] = {
   PHP_FE_END
 };
 
-PHP_MINIT_FUNCTION(ta)
+PHP_MINIT_FUNCTION(ta_lib)
 {
 #ifdef HAVE_TA
   TA_Initialize();
@@ -6500,7 +6500,7 @@ PHP_MINIT_FUNCTION(ta)
   return SUCCESS;
 }
 
-PHP_MSHUTDOWN_FUNCTION(ta)
+PHP_MSHUTDOWN_FUNCTION(ta_lib)
 {
 #ifdef HAVE_TA
   TA_Shutdown();
@@ -6508,10 +6508,10 @@ PHP_MSHUTDOWN_FUNCTION(ta)
   return SUCCESS;
 }
 
-PHP_MINFO_FUNCTION(ta)
+PHP_MINFO_FUNCTION(ta_lib)
 {
   php_info_print_table_start();
-  php_info_print_table_header(2, "ta support", "enabled");
+  php_info_print_table_header(2, "ta_lib support", "enabled");
 #ifdef HAVE_TA
   php_info_print_table_row(2, "ta-lib", "available");
 #else
@@ -6520,19 +6520,19 @@ PHP_MINFO_FUNCTION(ta)
   php_info_print_table_end();
 }
 
-zend_module_entry ta_module_entry = {
+zend_module_entry ta_lib_module_entry = {
   STANDARD_MODULE_HEADER,
-  "ta",
+  "ta_lib",
   ta_functions,
-  PHP_MINIT(ta),
-  PHP_MSHUTDOWN(ta),
+  PHP_MINIT(ta_lib),
+  PHP_MSHUTDOWN(ta_lib),
   NULL,
   NULL,
-  PHP_MINFO(ta),
-  PHP_TA_VERSION,
+  PHP_MINFO(ta_lib),
+  PHP_TA_LIB_VERSION,
   STANDARD_MODULE_PROPERTIES
 };
 
-#ifdef COMPILE_DL_TA
-ZEND_GET_MODULE(ta)
+#ifdef COMPILE_DL_TA_LIB
+ZEND_GET_MODULE(ta_lib)
 #endif

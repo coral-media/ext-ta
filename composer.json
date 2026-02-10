@@ -1,5 +1,5 @@
 {
-  "name": "coral-media/ext-ta",
+  "name": "ta-lib/ext-ta-lib",
   "description": "Technical analysis indicators (TA-Lib) for PHP",
   "keywords": [
     "php-ext",
@@ -21,10 +21,10 @@
     "php": ">=8.1"
   },
   "php-ext": {
-    "extension-name": "ta",
+    "extension-name": "ta_lib",
     "configure-options": [
       {
-        "name": "with-ta",
+        "name": "with-ta-lib",
         "description": "Build with vendored TA-Lib sources",
         "needs-value": false
       }

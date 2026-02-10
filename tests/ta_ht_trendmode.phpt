@@ -2,8 +2,8 @@
 ta_ht_trendmode() computes trend vs cycle mode
 --SKIPIF--
 <?php
-if (!extension_loaded('ta')) {
-    echo 'skip ta not loaded';
+if (!extension_loaded('ta_lib')) {
+    echo 'skip ta_lib not loaded';
 }
 ?>
 --FILE--

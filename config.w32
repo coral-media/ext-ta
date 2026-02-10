@@ -1,6 +1,6 @@
-ARG_WITH("ta", "TA-Lib support", "yes");
+ARG_WITH("ta-lib", "TA-Lib support", "yes");
 
-if (PHP_TA != "no") {
+if (PHP_TA_LIB != "no") {
   ADD_FLAG("CFLAGS_TA", "/DHAVE_TA");
   ADD_FLAG("CFLAGS_TA", "/Ilib\\ta-lib\\include");
   ADD_FLAG("CFLAGS_TA", "/Ilib\\ta-lib\\src");
@@ -208,5 +208,5 @@ if (PHP_TA != "no") {
   ta_sources = ta_sources + " " + "lib\\ta-lib\\src\\ta_abstract\\tables\\table_y.c";
   ta_sources = ta_sources + " " + "lib\\ta-lib\\src\\ta_abstract\\tables\\table_z.c";
 
-  EXTENSION("ta", ta_sources);
+  EXTENSION("ta_lib", ta_sources);
 }

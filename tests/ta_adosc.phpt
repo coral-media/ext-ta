@@ -2,8 +2,8 @@
 ta_adosc() computes Chaikin A/D Oscillator
 --SKIPIF--
 <?php
-if (!extension_loaded('ta')) {
-    echo 'skip ta not loaded';
+if (!extension_loaded('ta_lib')) {
+    echo 'skip ta_lib not loaded';
 }
 ?>
 --FILE--

@@ -2,8 +2,8 @@
 ta_cdl3whitesoldiers() computes CDL3WHITESOLDIERS
 --SKIPIF--
 <?php
-if (!extension_loaded('ta')) {
-    echo 'skip ta not loaded';
+if (!extension_loaded('ta_lib')) {
+    echo 'skip ta_lib not loaded';
 }
 ?>
 --FILE--

@@ -1,10 +1,10 @@
-PHP_ARG_WITH([ta],
+PHP_ARG_WITH([ta-lib],
   [for TA-Lib support],
-  [AS_HELP_STRING([--with-ta], [Include vendored TA-Lib support])],
+  [AS_HELP_STRING([--with-ta-lib], [Include vendored TA-Lib support])],
   [yes],
   [yes])
 
-if test "$PHP_TA" != "no"; then
+if test "$PHP_TA_LIB" != "no"; then
   TA_SRC_DIR=""
 
   if test -d "$ext_srcdir/lib/ta-lib"; then
@@ -33,5 +33,5 @@ lib/ta-lib/src/ta_abstract/*.c \
 lib/ta-lib/src/ta_abstract/frames/*.c \
 lib/ta-lib/src/ta_abstract/tables/*.c"
 
-  PHP_NEW_EXTENSION(ta, ta.c $TA_SOURCES, $ext_shared)
+  PHP_NEW_EXTENSION(ta_lib, ta.c $TA_SOURCES, $ext_shared)
 fi

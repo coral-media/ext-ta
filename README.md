@@ -1,4 +1,4 @@
-# coral-media/ext-ta (PHP extension)
+# ta-lib/ext-ta-lib (PHP extension)
 
 PIE-ready TA-Lib extension for PHP, bundling the TA-Lib sources and exposing a set of technical analysis functions.
 
@@ -7,21 +7,31 @@ PIE-ready TA-Lib extension for PHP, bundling the TA-Lib sources and exposing a s
 From sources
 
 ```sh
-pie install --with-ta
+pie install --with-ta-lib
 ```
+
+Also run `make test` to make sure everything is OK.
 
 ## Build (from source)
 
 ```sh
 phpize
-./configure --with-ta
+./configure --with-ta-lib
 make -j"$(nproc)"
 make install
 ```
 
+From [packagist.org](https://packagist.org/packages/ta-lib/ext-ta-lib)
+
+```sh
+pie install --with-ta-lib --no-cache -j2
+```
+
+Use `--no-cache` and `-jx` if needed.
+
 ## TA-Lib Functions
 
-Check the full [API docs](https://coral-media.github.io/ext-ta/docs/api/Home).
+Check the full [API docs](https://ta-lib.github.io/ext-ta-lib/docs/api/Home).
 
 ### Overlap Studies
 Trend-following averages and bands that overlay price series.
