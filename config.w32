@@ -2,14 +2,14 @@ ARG_WITH("ta-lib", "TA-Lib support", "yes");
 
 if (PHP_TA_LIB != "no") {
   var CFLAGS_TA = "";
-  ADD_FLAG("CFLAGS_TA", "/DHAVE_TA");
-  ADD_FLAG("CFLAGS_TA", "/Ilib\\ta-lib\\include");
-  ADD_FLAG("CFLAGS_TA", "/Ilib\\ta-lib\\src");
-  ADD_FLAG("CFLAGS_TA", "/Ilib\\ta-lib\\src\\ta_common");
-  ADD_FLAG("CFLAGS_TA", "/Ilib\\ta-lib\\src\\ta_func");
-  ADD_FLAG("CFLAGS_TA", "/Ilib\\ta-lib\\src\\ta_abstract");
-  ADD_FLAG("CFLAGS_TA", "/Ilib\\ta-lib\\src\\ta_abstract\\frames");
-  ADD_FLAG("CFLAGS_TA", "/Ilib\\ta-lib\\src\\ta_abstract\\tables");
+  CFLAGS_TA = CFLAGS_TA + " /DHAVE_TA";
+  CFLAGS_TA = CFLAGS_TA + " /Ilib\\ta-lib\\include";
+  CFLAGS_TA = CFLAGS_TA + " /Ilib\\ta-lib\\src";
+  CFLAGS_TA = CFLAGS_TA + " /Ilib\\ta-lib\\src\\ta_common";
+  CFLAGS_TA = CFLAGS_TA + " /Ilib\\ta-lib\\src\\ta_func";
+  CFLAGS_TA = CFLAGS_TA + " /Ilib\\ta-lib\\src\\ta_abstract";
+  CFLAGS_TA = CFLAGS_TA + " /Ilib\\ta-lib\\src\\ta_abstract\\frames";
+  CFLAGS_TA = CFLAGS_TA + " /Ilib\\ta-lib\\src\\ta_abstract\\tables";
 
         var ta_sources = "ta.c";
   ta_sources = ta_sources + " " + "lib\\ta-lib\\src\\ta_common\\ta_global.c";
